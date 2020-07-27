@@ -1,5 +1,5 @@
-import { Input, Row, Col, Statistic, Button, Spin, Popover, InputNumber } from 'antd';
-import { ReloadOutlined } from '@ant-design/icons';
+import { Input, Row, Col, Statistic, Button, Spin, Popover, InputNumber, Upload } from 'antd';
+import { ReloadOutlined, UploadOutlined } from '@ant-design/icons';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 import './Home.less';
@@ -108,6 +108,15 @@ const Home: React.FC<MapState & MapDispatch> = (props) => {
         if (evt.keyCode === 13) reloadBtn();
         if (typingEnd) return;
         keystrokeCountRef.current += 1;
+    };
+    const beforeJsonUpload = (file: any) => {
+        console.log(file);
+        var reader = new FileReader();
+        reader.onload = function() {
+            console.log(reader.result);
+        };
+        reader.readAsText(file);
+        return false;
     };
 
     useEffect(() => {
@@ -322,6 +331,11 @@ const Home: React.FC<MapState & MapDispatch> = (props) => {
                     )}
                 </Col>
             </Row>
+            <Upload accept="application/json" beforeUpload={beforeJsonUpload}>
+                <Button>
+                    <UploadOutlined /> Click to Upload
+                </Button>
+            </Upload>
         </div>
     );
 };
